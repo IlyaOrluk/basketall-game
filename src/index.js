@@ -34,9 +34,9 @@ Body.setAngle(boxB, 50)
 
 const groundOptions = {
     render: {
-        fillStyle: '#333',
-        strokeStyle: '#999',
-        lineWidth: 3
+        fillStyle: '#692e65',
+        strokeStyle: '#131137',
+        lineWidth: 10
     },
     isStatic: true
 }
