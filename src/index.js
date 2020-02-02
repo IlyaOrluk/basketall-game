@@ -10,7 +10,7 @@ let engine = Engine.create(),
         options: {
             width: 1000,
             height: 600,
-            background: 'https://cdn.dribbble.com/users/168664/screenshots/3500505/game-background-sprite.jpg',
+            background: 'https://i.ytimg.com/vi/dZLR5MuBeuk/maxresdefault.jpg',
             // showBroadphase: true,
             // showAxes: true,
             // showCollisions: true,
@@ -32,11 +32,18 @@ let engine = Engine.create(),
 Body.setAngle(boxB, 50)
 
 
-
-let groundB = Bodies.rectangle(400, 610, 1110, 60, { isStatic: true }),
-    groundT = Bodies.rectangle(400, 0, 1110, 60, { isStatic: true }),
-    groundL = Bodies.rectangle(980, 0, 60, 1210, { isStatic: true }),
-    groundR = Bodies.rectangle(0, 0, 60, 1210, { isStatic: true })
+const groundOptions = {
+    render: {
+        fillStyle: '#333',
+        strokeStyle: '#999',
+        lineWidth: 3
+    },
+    isStatic: true
+}
+let groundB = Bodies.rectangle(400, 610, 1110, 60, groundOptions),
+    groundT = Bodies.rectangle(400, 0, 1110, 60, groundOptions),
+    groundL = Bodies.rectangle(980, 0, 60, 1210, groundOptions),
+    groundR = Bodies.rectangle(0, 0, 60, 1210, groundOptions)
 
 class Ball {
     constructor(x, y, radius){
@@ -66,18 +73,35 @@ let balls = []
 
 
     let wall = Bodies.rectangle(840, 145, 15, 150, {
-        fillStyle: '#ffffff',
+        render: {
+            fillStyle: '#ffffff',
+        },
         isStatic: true,
     }),
         ring = Bodies.rectangle(749, 197, 92, 10, {
+            render: {
+                fillStyle: 'red',
+                strokeStyle: 'white',
+                lineWidth: 3
+            },
             isStatic: true,
             isSensor: true,
             chamfer: 5,
+
         }),
-        subRing = Bodies.rectangle(820, 197, 50, 5, {
+        subRing = Bodies.rectangle(820, 197, 50, 4, {
+            render: {
+                fillStyle: 'red',
+                strokeStyle: 'white',
+                lineWidth: 2
+            },
             isStatic: true,
         }),
-        support = Bodies.rectangle(899, 197, 150, 15, {
+        support = Bodies.rectangle(901, 197, 150, 15, {
+            render: {
+                strokeStyle: 'white',
+                lineWidth: 3
+            },
             isStatic: true,
             angle: 98
         }),
@@ -88,7 +112,7 @@ let balls = []
             isStatic: true
         })
 
-    World.add(world, [wall, ring, subRing, support, restriction1, restriction2]);
+    World.add(world, [ restriction1, restriction2, support, ring, subRing, wall ]);
     
 let mouse = Mouse.create(render.canvas),
     mouseConstraint = MouseConstraint.create(engine, {
@@ -111,7 +135,7 @@ let mouse = Mouse.create(render.canvas),
         if(e.keyCode === 32){
             balls.push(new Ball(300, 400, 20))
             balls[balls.length-1].show()
-            Body.setVelocity( balls[balls.length-1].body, {x: -((mouse.position.x-300)/10), y: -((mouse.position.y-400)/10)})
+            Body.setVelocity( balls[balls.length-1].body, {x: -((mouse.position.x-300)/5), y: -((mouse.position.y-400)/5)})
             Body.setAngularVelocity( balls[balls.length-1].body, -Math.PI/6)
         }
     })
