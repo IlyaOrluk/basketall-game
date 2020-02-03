@@ -1,5 +1,6 @@
 import { Engine, World, Body, Bodies, Constraint, Render, Mouse, MouseConstraint, Composites, Composite, Query, Events } from 'matter-js'
-
+document.body.style.margin = 0
+document.body.style.padding = 0
 // create an engine
 let engine = Engine.create(),
     world = engine.world,
@@ -8,8 +9,8 @@ let engine = Engine.create(),
         element: document.body,
         engine: engine,
         options: {
-            width: 1000,
-            height: 600,
+            width: 1300,
+            height: 650,
             background: 'https://i.ytimg.com/vi/dZLR5MuBeuk/maxresdefault.jpg',
             // showBroadphase: true,
             // showAxes: true,
@@ -40,10 +41,10 @@ const groundOptions = {
     },
     isStatic: true
 }
-let groundB = Bodies.rectangle(400, 610, 1110, 60, groundOptions),
+let groundB = Bodies.rectangle(650, 640, 1310, 60, groundOptions),
     groundT = Bodies.rectangle(400, 0, 1110, 60, groundOptions),
-    groundL = Bodies.rectangle(980, 0, 60, 1210, groundOptions),
-    groundR = Bodies.rectangle(0, 0, 60, 1210, groundOptions)
+    groundR = Bodies.rectangle(1280, 0, 60, 1210, groundOptions),
+    groundL = Bodies.rectangle(0, 0, 60, 1210, groundOptions)
 
 class Ball {
     constructor(x, y, radius){
@@ -60,7 +61,7 @@ class Ball {
             },
             frictionAir: 0.005,
             restitution: .9,
-            density: 0.003
+            density: 0.006
         },
         this.body = Bodies.circle(this.x, this.y, this.radius, this.options)    
     }
@@ -72,47 +73,7 @@ class Ball {
 let balls = []
 
 
-    let wall = Bodies.rectangle(840, 145, 15, 150, {
-        render: {
-            fillStyle: '#ffffff',
-        },
-        isStatic: true,
-    }),
-        ring = Bodies.rectangle(749, 197, 92, 10, {
-            render: {
-                fillStyle: 'red',
-                strokeStyle: 'white',
-                lineWidth: 3
-            },
-            isStatic: true,
-            isSensor: true,
-            chamfer: 5,
-
-        }),
-        subRing = Bodies.rectangle(820, 197, 50, 4, {
-            render: {
-                fillStyle: 'red',
-                strokeStyle: 'white',
-                lineWidth: 2
-            },
-            isStatic: true,
-        }),
-        support = Bodies.rectangle(901, 197, 150, 15, {
-            render: {
-                strokeStyle: 'white',
-                lineWidth: 3
-            },
-            isStatic: true,
-            angle: 98
-        }),
-        restriction1 = Bodies.circle(789, 195, 2, {
-            isStatic: true
-        }),
-        restriction2 = Bodies.circle(709, 195, 2, {
-            isStatic: true
-        })
-
-    World.add(world, [ restriction1, restriction2, support, ring, subRing, wall ]);
+    
     
 let mouse = Mouse.create(render.canvas),
     mouseConstraint = MouseConstraint.create(engine, {
@@ -136,7 +97,15 @@ let mouse = Mouse.create(render.canvas),
             balls.push(new Ball(300, 400, 20))
             balls[balls.length-1].show()
             Body.setVelocity( balls[balls.length-1].body, {x: -((mouse.position.x-300)/5), y: -((mouse.position.y-400)/5)})
-            Body.setAngularVelocity( balls[balls.length-1].body, -Math.PI/6)
+            //Body.setAngularVelocity( balls[balls.length-1].body, -Math.PI/6)
+        } else if (e.keyCode === 82){
+            console.log(balls)
+            balls.forEach(item => {
+                Composite.remove(world, item.body)
+            })
+            
+            balls = []
+            console.log(balls)
         }
     })
 
@@ -177,63 +146,105 @@ let mouse = Mouse.create(render.canvas),
 
 World.add(world, mouseConstraint);
 
-
+const rPosX = 1040, rPosY = 80
 let group = Body.nextGroup(true),
-    particleOptions = { friction: 0.00001, density: 0.0003, collisionFilter: { group: group }, render: { visible: false }},
+    particleOptions = { friction: 0.00001, density: 0.0006, collisionFilter: { group: group }, render: { visible: false }},
     constraintOptions = { stiffness: 0.3 },
-    cloth = Composites.softBody(710, 190, 8, 6, 1, 1, false, 4, particleOptions, constraintOptions)
+    cloth = Composites.softBody(10+rPosX, 190+rPosY, 8, 6, 1, 1, false, 4, particleOptions, constraintOptions)
 
 World.add(world, [
     cloth,
     Constraint.create({ 
         bodyA: cloth.bodies[0], 
-        pointB: {x: 709, y: 195},
+        pointB: {x: 9+rPosX, y: 145+rPosY},
         stiffness: 1,
         length: 0
     }),
     Constraint.create({ 
         bodyA: cloth.bodies[1], 
-        pointB: {x: 720, y: 195},
+        pointB: {x: 20+rPosX, y: 147+rPosY},
         stiffness: 1,
         length: 8
     }),
     Constraint.create({ 
         bodyA: cloth.bodies[2], 
-        pointB: {x: 730, y: 195},
+        pointB: {x: 30+rPosX, y: 147+rPosY},
         stiffness: 1,
         length: 14
     }),
     Constraint.create({ 
         bodyA: cloth.bodies[3], 
-        pointB: {x: 741, y: 195},
+        pointB: {x: 41+rPosX, y: 147+rPosY},
         stiffness: 1,
         length: 16
     }),
     Constraint.create({ 
         bodyA: cloth.bodies[4], 
-        pointB: {x: 755, y: 195},
+        pointB: {x: 55+rPosX, y: 147+rPosY},
         stiffness: 1,
         length: 16
     }),
     Constraint.create({ 
         bodyA: cloth.bodies[5], 
-        pointB: {x: 770, y: 195},
+        pointB: {x: 70+rPosX, y: 147+rPosY},
         stiffness: 1,
         length: 14
     }),
     Constraint.create({ 
         bodyA: cloth.bodies[6], 
-        pointB: {x: 780, y: 195},
+        pointB: {x: 80+rPosX, y: 147+rPosY},
         stiffness: 1,
         length: 8
     }),
     Constraint.create({ 
         bodyA: cloth.bodies[7], 
-        pointB: {x: 789, y: 195},
+        pointB: {x: 89+rPosX, y: 145+rPosY},
         stiffness: 1,
         length: 0
     }),
 ]);
+
+let wall = Bodies.rectangle(140+rPosX, 95+rPosY, 15, 150, {
+    render: {
+        fillStyle: '#ffffff',
+    },
+    isStatic: true,
+}),
+    ring = Bodies.rectangle(49+rPosX, 147+rPosY, 92, 10, {
+        render: {
+            fillStyle: 'red',
+            strokeStyle: 'white',
+            lineWidth: 2
+        },
+        isStatic: true,
+        isSensor: true,
+        chamfer: 0.1,
+
+    }),
+    subRing = Bodies.rectangle(120+rPosX, 147+rPosY, 50, 4, {
+        render: {
+            fillStyle: 'red',
+            strokeStyle: 'white',
+            lineWidth: 2
+        },
+        isStatic: true,
+    }),
+    support = Bodies.rectangle(201+rPosX, 147+rPosY, 150, 15, {
+        render: {
+            strokeStyle: 'white',
+            lineWidth: 3
+        },
+        isStatic: true,
+        angle: 98
+    }),
+    restriction1 = Bodies.circle(89+rPosX, 145+rPosY, 2, {
+        isStatic: true
+    }),
+    restriction2 = Bodies.circle(9+rPosX, 145+rPosY, 2, {
+        isStatic: true
+    })
+
+World.add(world, [ restriction1, restriction2, support, ring, subRing, wall ]);
 
 // keep the mouse in sync with rendering
 render.mouse = mouse;
