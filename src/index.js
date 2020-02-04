@@ -1,4 +1,20 @@
-import { Engine, World, Body, Bodies, Constraint, Render, Mouse, MouseConstraint, Composites, Composite, Query, Events } from 'matter-js'
+import { 
+    Engine,
+     World,
+      Body, 
+      Bodies,
+       Constraint, 
+       Render,
+        Mouse,
+         MouseConstraint,
+          Composites,
+           Composite,
+            Query,
+             Events
+             } from 'matter-js'
+
+import BasketballHoop from './basketball-hoop'
+
 document.body.style.margin = 0
 document.body.style.padding = 0
 // create an engine
@@ -73,8 +89,7 @@ class Ball {
 let balls = []
 
 
-    
-    
+
 let mouse = Mouse.create(render.canvas),
     mouseConstraint = MouseConstraint.create(engine, {
         mouse: mouse,
@@ -145,112 +160,16 @@ let mouse = Mouse.create(render.canvas),
     }); 
 
 World.add(world, mouseConstraint);
+let bH1 = new BasketballHoop(540, 80, world)
+bH1.show()
+const rPosX = 540, rPosY = 80
 
-const rPosX = 1040, rPosY = 80
-let group = Body.nextGroup(true),
-    particleOptions = { friction: 0.00001, density: 0.0006, collisionFilter: { group: group }, render: { visible: false }},
-    constraintOptions = { stiffness: 0.3 },
-    cloth = Composites.softBody(10+rPosX, 190+rPosY, 8, 6, 1, 1, false, 4, particleOptions, constraintOptions)
-
-World.add(world, [
-    cloth,
-    Constraint.create({ 
-        bodyA: cloth.bodies[0], 
-        pointB: {x: 9+rPosX, y: 145+rPosY},
-        stiffness: 1,
-        length: 0
-    }),
-    Constraint.create({ 
-        bodyA: cloth.bodies[1], 
-        pointB: {x: 20+rPosX, y: 147+rPosY},
-        stiffness: 1,
-        length: 8
-    }),
-    Constraint.create({ 
-        bodyA: cloth.bodies[2], 
-        pointB: {x: 30+rPosX, y: 147+rPosY},
-        stiffness: 1,
-        length: 14
-    }),
-    Constraint.create({ 
-        bodyA: cloth.bodies[3], 
-        pointB: {x: 41+rPosX, y: 147+rPosY},
-        stiffness: 1,
-        length: 16
-    }),
-    Constraint.create({ 
-        bodyA: cloth.bodies[4], 
-        pointB: {x: 55+rPosX, y: 147+rPosY},
-        stiffness: 1,
-        length: 16
-    }),
-    Constraint.create({ 
-        bodyA: cloth.bodies[5], 
-        pointB: {x: 70+rPosX, y: 147+rPosY},
-        stiffness: 1,
-        length: 14
-    }),
-    Constraint.create({ 
-        bodyA: cloth.bodies[6], 
-        pointB: {x: 80+rPosX, y: 147+rPosY},
-        stiffness: 1,
-        length: 8
-    }),
-    Constraint.create({ 
-        bodyA: cloth.bodies[7], 
-        pointB: {x: 89+rPosX, y: 145+rPosY},
-        stiffness: 1,
-        length: 0
-    }),
-]);
-
-let wall = Bodies.rectangle(140+rPosX, 95+rPosY, 15, 150, {
-    render: {
-        fillStyle: '#ffffff',
-    },
-    isStatic: true,
-}),
-    ring = Bodies.rectangle(49+rPosX, 147+rPosY, 92, 10, {
-        render: {
-            fillStyle: 'red',
-            strokeStyle: 'white',
-            lineWidth: 2
-        },
-        isStatic: true,
-        isSensor: true,
-        chamfer: 0.1,
-
-    }),
-    subRing = Bodies.rectangle(120+rPosX, 147+rPosY, 50, 4, {
-        render: {
-            fillStyle: 'red',
-            strokeStyle: 'white',
-            lineWidth: 2
-        },
-        isStatic: true,
-    }),
-    support = Bodies.rectangle(201+rPosX, 147+rPosY, 150, 15, {
-        render: {
-            strokeStyle: 'white',
-            lineWidth: 3
-        },
-        isStatic: true,
-        angle: 98
-    }),
-    restriction1 = Bodies.circle(89+rPosX, 145+rPosY, 2, {
-        isStatic: true
-    }),
-    restriction2 = Bodies.circle(9+rPosX, 145+rPosY, 2, {
-        isStatic: true
-    })
-
-World.add(world, [ restriction1, restriction2, support, ring, subRing, wall ]);
 
 // keep the mouse in sync with rendering
 render.mouse = mouse;
 
-// add all of the bodies to the world
-World.add(engine.world, [groundB, groundT, groundL, groundR])
+// // add all of the bodies to the world
+// World.add(engine.world, [groundB, groundT, groundL, groundR])
 // buble1, buble2,
 // run the engine
 Engine.run(engine)
