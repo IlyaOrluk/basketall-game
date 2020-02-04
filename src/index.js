@@ -59,11 +59,15 @@ const groundOptions = {
     isStatic: true
 }
 let groundB = Bodies.rectangle(650, 640, 1310, 60, groundOptions),
-    groundT = Bodies.rectangle(400, 0, 1110, 60, groundOptions),
+    groundT = Bodies.rectangle(300, 0, 710, 60, groundOptions),
     groundR = Bodies.rectangle(1280, 0, 60, 1210, groundOptions),
-    groundL = Bodies.rectangle(0, 0, 60, 1210, groundOptions)
+    groundL = Bodies.rectangle(0, 0, 60, 1210, groundOptions),
+    obstructions = [
+        Bodies.rectangle(500, 0, 60, 700, groundOptions),
+        Bodies.rectangle(800, 700, 60, 700, groundOptions)
+    ]
 
-World.add(engine.world, [groundB, groundT, groundL, groundR])
+World.add(engine.world, [groundB, groundT, groundL, groundR, ...obstructions])
 
 
 
@@ -109,7 +113,6 @@ let mouse = Mouse.create(render.canvas),
             endPoint = mouse.position;
         let distance = Math.sqrt(Math.pow((mouse.position.x - startPoint.x),2)+Math.pow((mouse.position.y - startPoint.y),2))
         var collisions = Query.ray(bodies, startPoint, endPoint);
-        console.log(mouse.position.x-300, mouse.position.y-400)
         Render.startViewTransform(render);
 
         context.beginPath();
@@ -139,8 +142,6 @@ let mouse = Mouse.create(render.canvas),
 World.add(world, mouseConstraint);
 let bH1 = new BasketballHoop(1040, 80, world)
 bH1.show()
-const rPosX = 540, rPosY = 80
-
 
 // keep the mouse in sync with rendering
 render.mouse = mouse;
