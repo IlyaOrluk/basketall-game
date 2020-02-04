@@ -14,6 +14,7 @@ import {
              } from 'matter-js'
 
 import BasketballHoop from './basketball-hoop'
+import Ball from './ball'
 
 document.body.style.margin = 0
 document.body.style.padding = 0
@@ -38,17 +39,17 @@ let engine = Engine.create(),
 })
 
 // create two boxes and a ground
-   let boxB = Bodies.rectangle(170, 500, 200, 50, {
-        isStatic: true,
-        chamfer: 10,
-        slop: 1,
-        friction: 1,
-        frictionStatic: Infinity
-    })
+let boxB = Bodies.rectangle(170, 500, 200, 50, {
+    isStatic: true,
+    chamfer: 10,
+    slop: 1,
+    friction: 1,
+    frictionStatic: Infinity
+})
 
 Body.setAngle(boxB, 50)
 
-
+ // add walls
 const groundOptions = {
     render: {
         fillStyle: '#692e65',
@@ -62,33 +63,12 @@ let groundB = Bodies.rectangle(650, 640, 1310, 60, groundOptions),
     groundR = Bodies.rectangle(1280, 0, 60, 1210, groundOptions),
     groundL = Bodies.rectangle(0, 0, 60, 1210, groundOptions)
 
-class Ball {
-    constructor(x, y, radius){
-        this.x = x,
-        this.y = y,
-        this.radius = radius
-        this.options = {
-            render: {
-                sprite: {
-                    texture: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Basketball_Clipart.svg/1035px-Basketball_Clipart.svg.png',
-                    xScale: .037,
-                    yScale: .037,
-                }
-            },
-            frictionAir: 0.005,
-            restitution: .9,
-            density: 0.006
-        },
-        this.body = Bodies.circle(this.x, this.y, this.radius, this.options)    
-    }
-    show() {
-        World.add(world, [this.body]);
-    } 
-}
+World.add(engine.world, [groundB, groundT, groundL, groundR])
 
+
+
+//array basketball balls
 let balls = []
-
-
 
 let mouse = Mouse.create(render.canvas),
     mouseConstraint = MouseConstraint.create(engine, {
@@ -109,18 +89,15 @@ let mouse = Mouse.create(render.canvas),
     window.addEventListener('keydown', e => {
         console.log(e.keyCode, mouseX, mouseY)
         if(e.keyCode === 32){
-            balls.push(new Ball(300, 400, 20))
+            balls.push(new Ball(300, 400, 20, world))
             balls[balls.length-1].show()
             Body.setVelocity( balls[balls.length-1].body, {x: -((mouse.position.x-300)/5), y: -((mouse.position.y-400)/5)})
             //Body.setAngularVelocity( balls[balls.length-1].body, -Math.PI/6)
         } else if (e.keyCode === 82){
-            console.log(balls)
             balls.forEach(item => {
                 Composite.remove(world, item.body)
             })
-            
             balls = []
-            console.log(balls)
         }
     })
 
@@ -160,7 +137,7 @@ let mouse = Mouse.create(render.canvas),
     }); 
 
 World.add(world, mouseConstraint);
-let bH1 = new BasketballHoop(540, 80, world)
+let bH1 = new BasketballHoop(1040, 80, world)
 bH1.show()
 const rPosX = 540, rPosY = 80
 
@@ -168,8 +145,7 @@ const rPosX = 540, rPosY = 80
 // keep the mouse in sync with rendering
 render.mouse = mouse;
 
-// // add all of the bodies to the world
-// World.add(engine.world, [groundB, groundT, groundL, groundR])
+
 // buble1, buble2,
 // run the engine
 Engine.run(engine)

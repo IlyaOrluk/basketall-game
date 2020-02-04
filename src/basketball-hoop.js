@@ -1,16 +1,9 @@
 import { 
-    Engine,
      World,
       Body, 
       Bodies,
        Constraint, 
-       Render,
-        Mouse,
-         MouseConstraint,
           Composites,
-           Composite,
-            Query,
-             Events
              } from 'matter-js'
              
 export default class BasketballHoop {
@@ -23,10 +16,15 @@ export default class BasketballHoop {
     }
 
     show() {
-        let group = Body.nextGroup(true),
-    particleOptions = { friction: 0.00001, density: 0.0006, collisionFilter: { group: group }, render: { visible: false }},
-    constraintOptions = { stiffness: 0.3 },
-    cloth = Composites.softBody(10+this.x, 190+this.y, 8, 6, 1, 1, false, 4, particleOptions, constraintOptions)
+    let group = Body.nextGroup(true),
+        particleOptions = { 
+            friction: 0.00001, 
+            density: 0.0006, 
+            collisionFilter: { group: group }, 
+            render: { visible: false }},
+            
+        constraintOptions = { stiffness: 0.3 },
+        cloth = Composites.softBody(10+this.x, 190+this.y, 8, 6, 1, 1, false, 4, particleOptions, constraintOptions)
 
 World.add(this.world, [
     cloth,
