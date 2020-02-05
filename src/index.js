@@ -15,6 +15,7 @@ import {
 
 import BasketballHoop from './basketball-hoop'
 import Ball from './ball'
+import Box from './box'
 
 document.body.style.margin = 0
 document.body.style.padding = 0
@@ -63,8 +64,8 @@ let groundB = Bodies.rectangle(650, 640, 1310, 60, groundOptions),
     groundR = Bodies.rectangle(1280, 0, 60, 1210, groundOptions),
     groundL = Bodies.rectangle(0, 0, 60, 1210, groundOptions),
     obstructions = [
-        Bodies.rectangle(500, 0, 60, 700, groundOptions),
-        Bodies.rectangle(800, 700, 60, 700, groundOptions)
+        Bodies.rectangle(500, 250, 100, 30, groundOptions),
+        Bodies.rectangle(800, 700, 100, 400, groundOptions)
     ]
 
 World.add(engine.world, [groundB, groundT, groundL, groundR, ...obstructions])
@@ -115,36 +116,45 @@ let mouse = Mouse.create(render.canvas),
         var collisions = Query.ray(bodies, startPoint, endPoint);
         Render.startViewTransform(render);
 
-        context.beginPath();
-        context.moveTo(startPoint.x, startPoint.y);
-        context.lineTo(endPoint.x, endPoint.y);
+        context.beginPath()
+        context.moveTo(startPoint.x, startPoint.y)
+        context.lineTo(endPoint.x, endPoint.y)
 
         context.fillText(Math.floor(distance), endPoint.x, endPoint.y)
         if (collisions.length > 0) {
-            context.strokeStyle = '#FF0000';
+            context.strokeStyle = '#FF0000'
         } else {
-            context.strokeStyle = '#00FF00';
+            context.strokeStyle = '#00FF00'
         }
         context.lineWidth = 2;
         context.stroke();
 
         for (var i = 0; i < collisions.length; i++) {
             var collision = collisions[i];
-            context.rect(collision.bodyA.position.x - 4.5, collision.bodyA.position.y - 4.5, 8, 8);
+            context.rect(collision.bodyA.position.x - 4.5, collision.bodyA.position.y - 4.5, 8, 8)
         }
 
-        context.fillStyle = 'rgba(255,165,0,0.7)';
+        context.fillStyle = 'rgba(255,165,0,0.7)'
         context.fill();
 
-        Render.endViewTransform(render);
+        Render.endViewTransform(render)
     }); 
 
 World.add(world, mouseConstraint);
 let bH1 = new BasketballHoop(1040, 80, world)
 bH1.show()
 
+let box1 = new Box(800, 330, 100, 100, world),
+    box2 = new Box(800, 430, 100, 100, world),
+    box3 = new Box(500, 100, 100, 100, world),
+    box4 = new Box(500, 200, 100, 100, world)
+box1.show()
+box2.show()
+box3.show()
+box4.show()
+
 // keep the mouse in sync with rendering
-render.mouse = mouse;
+render.mouse = mouse
 
 
 // buble1, buble2,
