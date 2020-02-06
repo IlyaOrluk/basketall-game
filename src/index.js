@@ -10,11 +10,15 @@ import {
           Composites,
            Composite,
             Query,
-             Events
+             Events,
+             Detector
              } from 'matter-js'
 
 import BasketballHoop from './basketball-hoop'
 import Ball from './ball'
+
+
+
 
 document.body.style.margin = 0
 document.body.style.padding = 0
@@ -106,6 +110,7 @@ let mouse = Mouse.create(render.canvas),
     })
 
     Events.on(render, 'afterRender', function() {
+        // console.log(Detector.canCollide(groundT, groundL))
         var mouse = mouseConstraint.mouse,
             context = render.context,
             bodies = Composite.allBodies(engine.world),
@@ -146,7 +151,7 @@ bH1.show()
 // keep the mouse in sync with rendering
 render.mouse = mouse;
 
-
+console.log(Detector.canCollide(groundB, groundL))
 // buble1, buble2,
 // run the engine
 Engine.run(engine)

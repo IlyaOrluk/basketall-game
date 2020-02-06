@@ -121,3 +121,4 @@ let wall = Bodies.rectangle(140+this.x, 95+this.y, 15, 150, {
 World.add(this.world, [ restriction1, restriction2, support, ring, subRing, wall ]);
     }
 }
+
