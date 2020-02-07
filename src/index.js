@@ -126,6 +126,7 @@ let mouse = Mouse.create(render.canvas),
         context.lineTo(endPoint.x, endPoint.y)
 
         context.fillText(Math.floor(distance), endPoint.x, endPoint.y)
+        
         if (collisions.length > 0) {
             context.strokeStyle = '#FF0000'
         } else {
@@ -152,12 +153,17 @@ bH1.show()
 let box1 = new Box(800, 330, 100, 100, world),
     box2 = new Box(800, 430, 100, 100, world),
     box3 = new Box(500, 100, 100, 100, world),
-    box4 = new Box(500, 200, 100, 100, world)
+    box4 = new Box(500, 200, 100, 100, world),
+    box5 = new Box(700, 200, 100, 100, world),
+    box6 = new Box(700, 200, 100, 100, world),
+    box7 = new Box(600, 400, 100, 100, world)
 box1.show()
 box2.show()
 box3.show()
 box4.show()
-
+box5.show()
+box6.show()
+box7.show()
 // keep the mouse in sync with rendering
 render.mouse = mouse
 
