@@ -17,7 +17,7 @@ export default class Box {
                 lineWidth: 10,
                sprite: {
                    texture: 'https://opengameart.org/sites/default/files/RTS_Crate.png',
-                   xScale: .19,
+                   xScale: .2,
                    yScale: .2,
                }
            },
@@ -25,7 +25,7 @@ export default class Box {
            friction: 1,
            slope: 1,
            restitution: .2,
-           density: 0.03
+           density: 0.05
        },
        this.body = Bodies.rectangle(this.x, this.y, this.width, this.height, this.options)
    }

@@ -10,12 +10,16 @@ import {
           Composites,
            Composite,
             Query,
-             Events
+             Events,
+             Detector
              } from 'matter-js'
 
 import BasketballHoop from './basketball-hoop'
 import Ball from './ball'
 import Box from './box'
+
+
+
 
 document.body.style.margin = 0
 document.body.style.padding = 0
@@ -107,6 +111,7 @@ let mouse = Mouse.create(render.canvas),
     })
 
     Events.on(render, 'afterRender', function() {
+        // console.log(Detector.canCollide(groundT, groundL))
         var mouse = mouseConstraint.mouse,
             context = render.context,
             bodies = Composite.allBodies(engine.world),
@@ -121,6 +126,7 @@ let mouse = Mouse.create(render.canvas),
         context.lineTo(endPoint.x, endPoint.y)
 
         context.fillText(Math.floor(distance), endPoint.x, endPoint.y)
+        
         if (collisions.length > 0) {
             context.strokeStyle = '#FF0000'
         } else {
@@ -147,16 +153,21 @@ bH1.show()
 let box1 = new Box(800, 330, 100, 100, world),
     box2 = new Box(800, 430, 100, 100, world),
     box3 = new Box(500, 100, 100, 100, world),
-    box4 = new Box(500, 200, 100, 100, world)
+    box4 = new Box(500, 200, 100, 100, world),
+    box5 = new Box(700, 200, 100, 100, world),
+    box6 = new Box(700, 200, 100, 100, world),
+    box7 = new Box(600, 400, 100, 100, world)
 box1.show()
 box2.show()
 box3.show()
 box4.show()
-
+box5.show()
+box6.show()
+box7.show()
 // keep the mouse in sync with rendering
 render.mouse = mouse
 
-
+console.log(Detector.canCollide(groundB, groundL))
 // buble1, buble2,
 // run the engine
 Engine.run(engine)
